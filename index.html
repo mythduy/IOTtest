@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Thống Theo Dõi Sức Khỏe Bệnh Nhân</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Login Overlay -->
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-container" id="authContainer">
+            <div class="forms-container">
+                <!-- Login Form -->
+                <div class="login-form-container">
+                    <div class="login-header">
+                        <div class="login-logo">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <h1 class="login-title">Đăng Nhập</h1>
+                        <p class="login-subtitle">Vui lòng đăng nhập để truy cập chương trình theo dõi sức khỏe</p>
+                    </div>
+                    
+                    <form class="login-form" id="loginForm">
+                        <div class="form-group">
+                            <label for="username">Tên đăng nhập</label>
+                            <input type="text" id="username" class="form-input" placeholder="Nhập tên đăng nhập" required>
+                            <i class="fas fa-user form-input-icon"></i>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="password">Mật khẩu</label>
+                            <input type="password" id="password" class="form-input" placeholder="Nhập mật khẩu" required>
+                            <i class="fas fa-lock form-input-icon"></i>
+                        </div>
+                        
+                        <div class="error-message" id="loginError">Tên đăng nhập hoặc mật khẩu không đúng!</div>
+                        
+                        <button type="submit" class="auth-btn">Đăng Nhập</button>
+                        
+                        <div class="toggle-form">
+                            Chưa có tài khoản? <button type="button" class="toggle-btn" id="showRegisterBtn">Đăng ký ngay</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- Registration Form -->
+                <div class="register-form-container">
+                    <div class="login-header">
+                        <div class="login-logo">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <h1 class="login-title">Đăng Ký Tài Khoản</h1>
+                        <p class="login-subtitle">Tạo tài khoản mới để sử dụng </p>
+                    </div>
+                    
+                    <form class="register-form" id="registerForm">
+                        <div class="form-group">
+                            <label for="fullName">Họ và tên</label>
+                            <input type="text" id="fullName" class="form-input" placeholder="Nhập họ và tên" required>
+                            <i class="fas fa-user form-input-icon"></i>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="regUsername">Tên đăng nhập</label>
+                            <input type="text" id="regUsername" class="form-input" placeholder="Tạo tên đăng nhập" required>
+                            <i class="fas fa-user-tag form-input-icon"></i>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="regPassword">Mật khẩu</label>
+                            <input type="password" id="regPassword" class="form-input" placeholder="Tạo mật khẩu" required>
+                            <i class="fas fa-lock form-input-icon"></i>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="confirmPassword">Xác nhận mật khẩu</label>
+                            <input type="password" id="confirmPassword" class="form-input" placeholder="Nhập lại mật khẩu" required>
+                            <i class="fas fa-lock form-input-icon"></i>
+                        </div>
+                        
+                        <div class="error-message" id="registerError">Lỗi đăng ký!</div>
+                        <div class="success-message" id="registerSuccess">Đăng ký thành công! Bạn có thể đăng nhập ngay bây giờ.</div>
+                        
+                        <button type="submit" class="auth-btn">Đăng Ký</button>
+                        
+                        <div class="toggle-form">
+                            Đã có tài khoản? <button type="button" class="toggle-btn" id="showLoginBtn">Đăng nhập</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="login-footer">
+                © 2025 Chương Trình Theo Dõi Sức Khỏe Người Cao Tuổi
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <h1>Chương Trình Theo Dõi Sức Khỏe Người Cao Tuổi</h1>
+            
+            <!-- User profile information -->
+            <div class="user-profile">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <span id="userDisplayName">Bác sĩ</span>
+                <button class="logout-btn" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>Đăng xuất
+                </button>
+            </div>
+        </header>
+        
+        <div class="vitals-container">
+            <div class="vital-card">
+                <div class="vital-header">
+                    <div class="vital-icon heart-icon">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <div class="vital-title">Nhịp Tim</div>
+                </div>
+                <div class="vital-body">
+                    <div class="vital-value heart-rate" id="heart-rate">--</div>
+                    <div class="vital-unit">Nhịp mỗi phút</div>
+                    <div class="vital-status status-normal" id="heart-status">
+                        <span class="status-indicator indicator-normal"></span>
+                        Bình Thường
+                    </div>
+                    <div class="vital-chart"></div>
+                </div>
+            </div>
+            
+            <div class="vital-card">
+                <div class="vital-header">
+                    <div class="vital-icon oxygen-icon">
+                        <i class="fas fa-lungs"></i>
+                    </div>
+                    <div class="vital-title">Nồng Độ Oxy Trong Máu</div>
+                </div>
+                <div class="vital-body">
+                    <div class="vital-value oxygen-level" id="spo2">--</div>
+                    <div class="vital-unit">Phần trăm SpO₂</div>
+                    <div class="vital-status status-normal" id="oxygen-status">
+                        <span class="status-indicator indicator-normal"></span>
+                        Bình Thường
+                    </div>
+                    <div class="vital-chart oxygen"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="monitoring-section">
+            <div class="monitoring-header">
+                <i class="fas fa-clipboard-list"></i>
+                Tổng Quan Tình Trạng Sức Khỏe
+            </div>
+            
+            <div class="monitoring-card">
+                <div class="monitoring-grid">
+                    <div class="status-box">
+                        <div class="status-title">Tình Trạng Tim</div>
+                        <div class="status-value" id="heart-status-summary">
+                            <div class="heart-pulse"></div>
+                            Bình Thường
+                        </div>
+                    </div>
+                    
+                    <div class="status-box">
+                        <div class="status-title">Nồng Độ Oxy</div>
+                        <div class="status-value" id="oxygen-status-summary">
+                            <span class="status-indicator indicator-normal"></span>
+                            Bình Thường
+                        </div>
+                    </div>
+                    
+                    <div class="status-box">
+                        <div class="status-title">Phát Hiện Ngã</div>
+                        <div class="status-value" id="fall-status">
+                            <span class="status-indicator indicator-normal"></span>
+                            Không Có Rủi Ro
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="fall-alert" id="fall-alert">
+                <div class="fall-alert-content">
+                    <div class="alert-icon-container">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="alert-text">
+                        <div class="alert-title">ĐÃ PHÁT HIỆN NGÃ!</div>
+                        <div class="alert-message">Bệnh nhân có thể cần được chăm sóc ngay lập tức. Vui lòng kiểm tra ngay.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer class="footer">
+            <p>© 2025 Chương Trình Theo Dõi Sức Khỏe Người Cao Tuổi</p>
+        </footer>
+    </div>
+    
+    <!-- Fall Alert Modal -->
+    <div class="modal-overlay" id="alertModal">
+        <div class="alert-modal">
+            <div class="modal-icon">
+                <i class="fas fa-person-falling"></i>
+            </div>
+            <h2>ĐÃ PHÁT HIỆN NGÃ</h2>
+            <p>Hệ thống giám sát đã phát hiện khả năng bệnh nhân bị ngã. Bệnh nhân có thể cần được chăm sóc y tế ngay lập tức. Vui lòng đến kiểm tra ngay.</p>
+            <button class="alert-btn" id="acknowledgeBtn">Xác Nhận Cảnh Báo</button>
+        </div>
+    </div>
+    
+    <!-- Logout Confirmation Dialog -->
+    <div class="logout-confirm" id="logoutConfirm">
+        <div class="logout-dialog">
+            <h3>Xác Nhận Đăng Xuất</h3>
+            <p>Bạn có chắc chắn muốn đăng xuất khỏi chương trình?</p>
+            <div class="dialog-buttons">
+                <button class="dialog-btn cancel-btn" id="cancelLogout">Hủy</button>
+                <button class="dialog-btn confirm-btn" id="confirmLogout">Đăng Xuất</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio elements for alert sounds -->
+    <audio id="alertSound" preload="auto">
+        <source src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_c518b4a552.mp3?filename=alarm-clock-short-6402.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    
+    <!-- Âm thanh cảnh báo nhịp tim (bíp bíp) -->
+    <audio id="heartRateSound" preload="auto">
+        <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_942517b823.mp3?filename=beep-warning-6387.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    
+    <!-- Âm thanh cảnh báo oxy thấp (ting ting) -->
+    <audio id="oxygenSound" preload="auto">
+        <source src="https://cdn.pixabay.com/download/audio/2022/03/10/audio_c8c8a73467.mp3?filename=interface-124464.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    
+    <!-- Scripts -->
+    <script src="config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/health-monitor.js"></script>
+    <script src="js/ui-handlers.js"></script>
+</body>
+</html>
