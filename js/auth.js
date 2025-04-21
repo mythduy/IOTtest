@@ -181,6 +181,11 @@ confirmLogout.addEventListener('click', function() {
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('user');
     
+    // Dừng tất cả âm thanh cảnh báo
+    if (typeof stopAllAlerts === 'function') {
+        stopAllAlerts();
+    }
+    
     // Ẩn hộp thoại xác nhận
     logoutConfirm.style.display = 'none';
     

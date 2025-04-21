@@ -7,6 +7,11 @@ let alertInterval = null;
 
 // Hàm phát âm thanh cảnh báo ngã
 function playAlertSound() {
+    // Kiểm tra đăng nhập trước khi phát âm thanh
+    if (!isUserLoggedIn) {
+        return;
+    }
+    
     alertSound.currentTime = 0;
     let playPromise = alertSound.play();
     
@@ -23,6 +28,11 @@ function playAlertSound() {
 
 // Hàm phát âm thanh cảnh báo nhịp tim (bíp bíp)
 function playHeartRateAlert() {
+    // Kiểm tra đăng nhập trước khi phát âm thanh
+    if (!isUserLoggedIn) {
+        return;
+    }
+    
     if (!heartRateSound) {
         console.warn("Chưa định nghĩa âm thanh cảnh báo nhịp tim");
         return;
@@ -40,6 +50,11 @@ function playHeartRateAlert() {
 
 // Hàm phát âm thanh cảnh báo oxy thấp (ting ting)
 function playOxygenAlert() {
+    // Kiểm tra đăng nhập trước khi phát âm thanh
+    if (!isUserLoggedIn) {
+        return;
+    }
+    
     if (!oxygenSound) {
         console.warn("Chưa định nghĩa âm thanh cảnh báo oxy");
         return;

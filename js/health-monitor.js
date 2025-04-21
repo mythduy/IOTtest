@@ -17,6 +17,14 @@ const alertSound = document.getElementById('alertSound');
 const heartRateSound = document.getElementById('heartRateSound');
 const oxygenSound = document.getElementById('oxygenSound');
 
+// Biến kiểm tra người dùng đã đăng nhập hay chưa
+let isUserLoggedIn = false;
+
+// Kiểm tra trạng thái đăng nhập
+function checkLoginStatus() {
+    return localStorage.getItem('isLoggedIn') === 'true';
+}
+
 // Lưu trữ giá trị trước đó để hiệu ứng và so sánh
 let prevValues = {
     heartRate: null,
@@ -272,6 +280,14 @@ function getRandomValue(min, max) {
 
 // Cập nhật giao diện người dùng với dữ liệu sức khỏe
 async function updateAllData() {
+    // Cập nhật trạng thái đăng nhập
+    isUserLoggedIn = checkLoginStatus();
+    
+    // Chỉ cập nhật dữ liệu khi đã đăng nhập
+    if (!isUserLoggedIn) {
+        return; // Không thực hiện cập nhật nếu chưa đăng nhập
+    }
+    
     // Lấy dữ liệu sức khỏe Blynk (với dự phòng là mô phỏng)
     const healthData = await fetchHealthData();
     
@@ -306,8 +322,50 @@ async function updateAllData() {
     }
 }
 
+// Hàm dừng tất cả âm thanh cảnh báo
+function stopAllAlerts() {
+    if (typeof stopHeartRateAlert === 'function') {
+        stopHeartRateAlert();
+    }
+    
+    if (typeof stopOxygenAlert === 'function') {
+        stopOxygenAlert();
+    }
+    
+    if (alertSound) {
+        alertSound.pause();
+        alertSound.currentTime = 0;
+    }
+    
+    if (heartRateSound) {
+        heartRateSound.pause();
+        heartRateSound.currentTime = 0;
+    }
+    
+    if (oxygenSound) {
+        oxygenSound.pause();
+        oxygenSound.currentTime = 0;
+    }
+}
+
 // Khởi tạo với cập nhật đầu tiên
 document.addEventListener('DOMContentLoaded', function() {
+    // Kiểm tra đăng nhập trước khi bắt đầu cập nhật
+    isUserLoggedIn = checkLoginStatus();
+    
+    // Thiết lập event listener cho thay đổi trạng thái đăng nhập
+    window.addEventListener('storage', function(e) {
+        if (e.key === 'isLoggedIn') {
+            isUserLoggedIn = e.newValue === 'true';
+            
+            // Nếu đăng xuất, dừng tất cả âm thanh cảnh báo
+            if (!isUserLoggedIn) {
+                stopAllAlerts();
+            }
+        }
+    });
+    
+    // Bắt đầu cập nhật
     updateAllData();
     
     // Cập nhật dữ liệu theo định kỳ (mỗi 3 giây)

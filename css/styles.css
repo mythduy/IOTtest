@@ -168,6 +168,18 @@ body {
     pointer-events: none;
 }
 
+/* Điều chỉnh vị trí của các biểu tượng trong form đăng nhập */
+.form-group .form-input-icon {
+    position: absolute;
+    right: 15px;
+    /* Điều chỉnh vị trí lên cao hơn một chút */
+    top: calc(50% + 10px);
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    pointer-events: none;
+    font-size: 0.9rem; /* Giảm kích thước biểu tượng để phù hợp hơn */
+}
+
 .toggle-password {
     position: absolute;
     right: 15px;
